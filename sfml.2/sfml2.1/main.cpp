@@ -42,7 +42,7 @@ int main()
         const float wavePhase = time * float(2 * M_PI);
         x += speedX * dt;
 
-        if ((x + BALL_SIZE * 2 >= WINDOW_WIDTH) || (x < 0))
+        if ((position.x + x + BALL_SIZE * 2 >= WINDOW_WIDTH) || (position.x + x < 0))
         {
             speedX = -speedX;
         }
