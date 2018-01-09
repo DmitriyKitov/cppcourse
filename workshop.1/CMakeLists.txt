@@ -1,7 +1,13 @@
-add_executable(workshop1.3 main.cpp)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-target_include_directories(workshop1.3 PRIVATE ${SFML_INCLUDE_DIR})
-target_compile_features(workshop1.3 PUBLIC cxx_std_17)
-target_compile_definitions(workshop1.3 PRIVATE SFML_STATIC)
+project(workshop.1)
 
-target_link_libraries(workshop1.3 ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+set(SFML_STATIC_LIBRARIES TRUE)
+
+find_package(Freetype REQUIRED)
+find_package(JPEG REQUIRED)
+find_package(SFML 2 COMPONENTS window graphics system REQUIRED)
+
+add_subdirectory(workshop1.1)
+add_subdirectory(workshop1.2)
+add_subdirectory(workshop1.3)
