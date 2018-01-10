@@ -10,7 +10,6 @@ int main()
     sf::RenderWindow window(
         sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}),
         "Arrow", sf::Style::Default, settings);
-    window.clear(sf::Color(0xFF, 0xFF, 0xFF));
 
     sf::ConvexShape arrow;
 
@@ -42,6 +41,7 @@ int main()
                 break;
             }
         }
+        window.clear(sf::Color(0xFF, 0xFF, 0xFF));
         window.draw(arrow);
         window.display();
     }
