@@ -19,23 +19,20 @@ void update(const sf::Vector2f &mousePosition, sf::Clock &clock, sf::Sprite &cat
     redPoint.setPosition(mousePosition);
     const sf::Vector2f mousePositionDelta = mousePosition - cat.getPosition();
     float deltaTime = clock.restart().asSeconds();
-    float distancePointCat = std::hypot(mousePositionDelta.x, mousePositionDelta.y);
-    sf::Vector2f direction = {mousePositionDelta.x / distancePointCat, mousePositionDelta.y / distancePointCat};
+    float deltaSize = std::hypot(mousePositionDelta.x, mousePositionDelta.y);
+    sf::Vector2f direction = {mousePositionDelta.x / deltaSize, mousePositionDelta.y / deltaSize};
     float speedMotionMax = 90.0;
     float speedMotion = speedMotionMax * deltaTime;
-    if (distancePointCat > 0.5)
+    if (deltaSize > 1)
     {
         cat.setPosition(cat.getPosition() + direction * speedMotion);
-        if (redPoint.getPosition().x != cat.getPosition().x)
+        if (redPoint.getPosition().x < cat.getPosition().x)
         {
-            if (redPoint.getPosition().x < cat.getPosition().x)
-            {
-                cat.setScale(-1, 1);
-            }
-            if (redPoint.getPosition().x > cat.getPosition().x)
-            {
-                cat.setScale(1, 1);
-            }
+            cat.setScale(-1, 1);
+        }
+        if (redPoint.getPosition().x > cat.getPosition().x)
+        {
+            cat.setScale(1, 1);
         }
     }
 }
@@ -75,7 +72,7 @@ int main()
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(
-        sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Cat and point",
+        sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "the cat follows the pointer",
         sf::Style::Default, settings);
 
     sf::Clock clock;
