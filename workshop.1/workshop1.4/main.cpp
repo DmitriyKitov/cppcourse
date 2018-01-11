@@ -4,14 +4,14 @@
 
 void init(sf::Texture &textureCat, sf::Texture &textureRedPoint, sf::Sprite &cat, sf::Sprite &redPoint, sf::Vector2f center)
 {
+    textureRedPoint.loadFromFile("pointer.png", sf::IntRect(0, 0, 32, 32));
+    redPoint.setTexture(textureRedPoint);
+    redPoint.setOrigin(16, 16);
+
     textureCat.loadFromFile("cat.png", sf::IntRect(0, 0, 38, 35));
     cat.setTexture(textureCat);
     cat.setPosition(center);
     cat.setOrigin(18, 19);
-
-    textureRedPoint.loadFromFile("pointer.png", sf::IntRect(0, 0, 32, 32));
-    redPoint.setTexture(textureRedPoint);
-    redPoint.setOrigin(16, 16);
 }
 
 void update(const sf::Vector2f &mousePosition, sf::Clock &clock, sf::Sprite &cat, sf::Sprite &redPoint)
@@ -59,8 +59,8 @@ void pollEvent(sf::RenderWindow &window, sf::Vector2f &mousePosition)
 void redrawFrame(sf::RenderWindow &window, sf::Sprite &cat, sf::Sprite &redPoint)
 {
     window.clear(sf::Color(255, 255, 255));
-    window.draw(cat);
     window.draw(redPoint);
+    window.draw(cat);
     window.display();
 }
 
