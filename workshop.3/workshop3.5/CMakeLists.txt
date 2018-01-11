@@ -1,4 +1,4 @@
-add_executable(workshop3.5 main.cpp)
+add_executable(workshop3.5 main.hpp main.cpp clock.hpp clock.cpp)
 
 target_include_directories(workshop3.5 PRIVATE ${SFML_INCLUDE_DIR})
 target_compile_features(workshop3.5 PUBLIC cxx_std_17)
