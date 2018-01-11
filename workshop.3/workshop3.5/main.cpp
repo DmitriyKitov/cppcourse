@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <Windows.h>
 #include <string>
+#include <cmath>
 
 const double PI = 3.141592653589793238463;
 
@@ -8,10 +9,11 @@ int main()
 {
 	const int screenWidth = 800;
 	const int screenHeight = 800;
-	int x, y, x1, y1,n=6;
+	int x, y, x1, y1, n = 6;
 	float angle = 0.0;
 	sf::Font font;
-	if (!font.loadFromFile("arial.ttf")) {
+	if (!font.loadFromFile("arial.ttf"))
+	{
 		//error
 	}
 
@@ -52,15 +54,14 @@ int main()
 	float minuteHandAngle = 0.0f;
 	float secondHandAngle = 0.0f;
 
-
 	std::vector<sf::Text> npc_text(12);
 	sf::CircleShape dot[60];
-	for (int i = 0; i<60; i++)
+	for (int i = 0; i < 60; i++)
 	{
-		x = (clockRadius - 10) * cos(angle);
-		y = (clockRadius - 10) * sin(angle);
-		x1 =(clockRadius - 30) * sin(angle);
-		y1= (clockRadius - 30) * cos(angle);
+		x = (clockRadius - 10) * std::cos(angle);
+		y = (clockRadius - 10) * std::sin(angle);
+		x1 = (clockRadius - 30) * std::sin(angle);
+		y1 = (clockRadius - 30) * std::cos(angle);
 
 		if (i % 5 == 0)
 		{
@@ -83,7 +84,6 @@ int main()
 
 		angle = angle + ((2 * PI) / 60);
 	}
-
 
 	sf::RectangleShape hourHand;
 	hourHand.setPosition(centerX, centerY - hourHandWidth / 2);
@@ -135,11 +135,11 @@ int main()
 		Window.draw(hourHand);
 		Window.draw(minuteHand);
 		Window.draw(secondHand);
-		for (int i = 0; i<60; i++)
+		for (int i = 0; i < 60; i++)
 		{
 			Window.draw(dot[i]);
 		}
-		for (auto& text : npc_text)
+		for (auto &text : npc_text)
 			Window.draw(text);
 		Window.display();
 	}
