@@ -3,8 +3,6 @@
 #include <string>
 #include <cmath>
 
-const double PI = 3.141592653589793238463;
-
 int main()
 {
 	const int screenWidth = 800;
@@ -72,7 +70,7 @@ int main()
 			npc_text[i / 5].setString(std::to_string(n));
 			npc_text[i / 5].setPosition(x1 + Window.getSize().x / 2, y1 + Window.getSize().y / 2);
 			npc_text[i / 5].setOrigin(npc_text[i / 5].getGlobalBounds().width / 2, npc_text[i / 5].getGlobalBounds().height / 2);
-			npc_text[i / 5].setColor(sf::Color::Black);
+			npc_text[i / 5].setFillColor(sf::Color(0, 0, 0));
 			npc_text[i / 5].setCharacterSize(24);
 			n--;
 		}
@@ -82,7 +80,7 @@ int main()
 		dot[i].setOrigin(dot[i].getGlobalBounds().width / 2, dot[i].getGlobalBounds().height / 2);
 		dot[i].setPosition(x + Window.getSize().x / 2, y + Window.getSize().y / 2);
 
-		angle = angle + ((2 * PI) / 60);
+		angle = angle + ((2 * M_PI) / 60);
 	}
 
 	sf::RectangleShape hourHand;
