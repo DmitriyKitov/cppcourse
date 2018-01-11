@@ -1,8 +1,39 @@
 #include <SFML/Graphics.hpp>
-#include <Windows.h>
+#include <windows.h>
 #include <string>
 #include <cmath>
 
+void initClock(sf::CircleShape &clock, float clockRadius, float clockX, float clockY)
+{
+	clock.setPosition(clockX, clockY);
+	clock.setOutlineThickness(1.0f);
+	clock.setOutlineColor(sf::Color::Black);
+	clock.setFillColor(sf::Color::White);
+}
+
+void pollEvent(sf::RenderWindow &window)
+{
+	sf::Event event;
+	while (window.pollEvent(event))
+	{
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			window.close();
+			break;
+		}
+	}
+}
+
+void redrawFrame(sf::RenderWindow &window, sf::CircleShape centerCircle, sf::RectangleShape hourHand, sf::RectangleShape minuteHand, sf::RectangleShape secondHand, sf::CircleShape clock)
+{
+	window.clear(sf::Color::White);
+	window.draw(clock);
+	window.draw(centerCircle);
+	window.draw(hourHand);
+	window.draw(minuteHand);
+	window.draw(secondHand);
+}
 int main()
 {
 	const int screenWidth = 800;
@@ -15,7 +46,7 @@ int main()
 		//error
 	}
 
-	sf::RenderWindow Window(sf::VideoMode(screenWidth, screenHeight, 32), "Clock");
+	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight, 32), "Clock");
 
 	float clockRadius = 350;
 	float clockX = (screenWidth - 2 * clockRadius) / 2;
@@ -25,10 +56,8 @@ int main()
 	float centerY = clockY + clockRadius;
 
 	sf::CircleShape clock(clockRadius, 360U);
-	clock.setPosition(clockX, clockY);
-	clock.setOutlineThickness(1.0f);
-	clock.setOutlineColor(sf::Color::Black);
-	clock.setFillColor(sf::Color::White);
+
+	initClock(clock, clockRadius, clockX, clockY);
 
 	float centerRadius = 20;
 
@@ -68,7 +97,7 @@ int main()
 			dot[i] = sf::CircleShape(3);
 			npc_text[i / 5].setFont(font);
 			npc_text[i / 5].setString(std::to_string(n));
-			npc_text[i / 5].setPosition(x1 + Window.getSize().x / 2, y1 + Window.getSize().y / 2);
+			npc_text[i / 5].setPosition(x1 + window.getSize().x / 2, y1 + window.getSize().y / 2);
 			npc_text[i / 5].setOrigin(npc_text[i / 5].getGlobalBounds().width / 2, npc_text[i / 5].getGlobalBounds().height / 2);
 			npc_text[i / 5].setFillColor(sf::Color(0, 0, 0));
 			npc_text[i / 5].setCharacterSize(24);
@@ -78,7 +107,7 @@ int main()
 			dot[i] = sf::CircleShape(1);
 		dot[i].setFillColor(sf::Color::Black);
 		dot[i].setOrigin(dot[i].getGlobalBounds().width / 2, dot[i].getGlobalBounds().height / 2);
-		dot[i].setPosition(x + Window.getSize().x / 2, y + Window.getSize().y / 2);
+		dot[i].setPosition(x + window.getSize().x / 2, y + window.getSize().y / 2);
 
 		angle = angle + ((2 * M_PI) / 60);
 	}
@@ -98,10 +127,8 @@ int main()
 	secondHand.setSize(sf::Vector2f(secondHandLength, secondHandWidth));
 	secondHand.setFillColor(sf::Color::Red);
 
-	while (Window.isOpen())
+	while (window.isOpen())
 	{
-		sf::Event Event;
-
 		// save the current system time (using windows.h)
 		SYSTEMTIME systime;
 		GetLocalTime(&systime);
@@ -117,29 +144,15 @@ int main()
 		minuteHand.setRotation(minuteHandAngle);
 		secondHand.setRotation(secondHandAngle);
 
-		while (Window.pollEvent(Event))
-		{
-			switch (Event.type)
-			{
-			case sf::Event::Closed:
-				Window.close();
-				break;
-			}
-		}
-
-		Window.clear(sf::Color::White);
-		Window.draw(clock);
-		Window.draw(centerCircle);
-		Window.draw(hourHand);
-		Window.draw(minuteHand);
-		Window.draw(secondHand);
+		pollEvent(window);
+		redrawFrame(window, centerCircle, hourHand, minuteHand, secondHand, clock);
 		for (int i = 0; i < 60; i++)
 		{
-			Window.draw(dot[i]);
+			window.draw(dot[i]);
 		}
 		for (auto &text : npc_text)
-			Window.draw(text);
-		Window.display();
+			window.draw(text);
+		window.display();
 	}
 
 	return 0;
